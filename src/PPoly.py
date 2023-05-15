@@ -9,7 +9,9 @@ from numba import cuda
 from numba import jit
 
 
-@cuda.jit('void(float64[:,:,:], float64[:], float64[:], float64[:,:])')
+# Adjusted signature to properly handle complex128 data
+#@cuda.jit('void(float64[:,:,:], float64[:], float64[:], float64[:,:])')
+@cuda.jit('void(complex128[:,:,:], float64[:], float64[:], complex128[:,:])')
 def evaluate(c, x, xp, out):
 
     dx = 0
@@ -75,7 +77,9 @@ def evaluate(c, x, xp, out):
         i = it
         if i < 0:
             for jp in range(0, cshape2, 1):
-                out[ip, jp] = 0
+                # initialize as complex
+                #out[ip, jp] = 0
+                out[ip, jp] = complex(0,0)
             continue
         else:
             interval = i
@@ -85,7 +89,9 @@ def evaluate(c, x, xp, out):
             ss = xval - x[interval]
             cj = jp
             # function start: ----------------------------------------------------------------------
-            res = 0.0
+            # JCR HACK: initialize as complex
+            #res = 0.0
+            res = complex(0,0)
             z = 1.0
             cshape1 = c.shape[0]
 

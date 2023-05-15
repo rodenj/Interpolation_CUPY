@@ -1,6 +1,6 @@
 import cupy as np
 import cupy
-from .PPoly import PPoly
+from PPoly import PPoly
 from scipy.linalg.blas import _memoize_get_funcs
 import scipy.linalg.blas as bla
 import scipy.linalg as scl
